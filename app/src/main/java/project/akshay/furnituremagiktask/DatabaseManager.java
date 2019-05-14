@@ -14,20 +14,16 @@ import java.util.ArrayList;
 public class DatabaseManager implements BaseColumns {
 
     private static final int A_VERSION = 1;
-    private static final String databaseName = "CONTACTS_DATA";
+    private static final String databaseName = "PRODUCTS_DATA";
     private static final String k_id = BaseColumns._ID;
-    private static final String tableName = "CONTACTS_TABLE";
-    private static final String k_date_of_birth = "DATE";
+    private static final String tableName = "PRODUCTS_TABLE";
     private static final String k_name = "NAME";
-    private static final String k_email = "EMAIL";
-    private static final String k_mobile = "MOBILE";
-    private static final String k_address = "ADDRESS";
-    private static final String k_pic = "PIC_ID";
+    private static final String k_quantity = "QUANTITY";
+    private static final String k_price = "PRICE";
     Context context;
 
     String CREATE_TABLE = "CREATE TABLE " + tableName + " (" + k_id + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            k_name + " TEXT, " + k_email + " TEXT, " + k_mobile + " TEXT, " + k_address + " TEXT, " + k_date_of_birth + " TEXT, "
-            + k_pic + " TEXT);";
+            k_name + " TEXT, " + k_quantity + " TEXT, " + k_price + " TEXT);";
 
     public DatabaseManager(Context context) {
         this.context = context;
@@ -54,18 +50,25 @@ public class DatabaseManager implements BaseColumns {
         }
     }
 
-    public void addContact() {
+    public void addProduct(Product product) {
 
         dataBase = new DataBase(context);
         SQLiteDatabase sqLiteDatabase = dataBase.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
 
+        contentValues.put(k_name, product.getProductName());
+        contentValues.put(k_quantity, product.getQuantity());
+        contentValues.put(k_price, product.getTotalPrice());
+
+        sqLiteDatabase.insert(tableName,null,contentValues);
+        sqLiteDatabase.close();
+
     }
 
-    public ArrayList<String> getAllContacts() {
+    public ArrayList<Product> getAllProducts() {
 
         DataBase dataBase = new DataBase(context);
-        ArrayList<String> contactsList = new ArrayList<>();
+        ArrayList<Product> productsList = new ArrayList<>();
         String sqlQuery = "SELECT * FROM " + tableName + " ORDER BY " + k_name + " COLLATE NOCASE ASC";
 
         SQLiteDatabase sqLiteDatabase = dataBase.getReadableDatabase();
@@ -73,13 +76,15 @@ public class DatabaseManager implements BaseColumns {
 
         if(cursor.moveToFirst()){
             do {
-
+                Product product = new Product(cursor.getString(1),cursor.getString(2),"",
+                        cursor.getString(3),cursor.getInt(0));
+                productsList.add(product);
             } while (cursor.moveToNext());
         }
 
         cursor.close();
 
-        return contactsList;
+        return productsList;
 
     }
 

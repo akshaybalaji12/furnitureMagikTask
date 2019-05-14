@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">FurnitureMagikTask</string>
+    <string name="app_name">Furniture Magik Task</string>
+    <string name="homeActivityTitle">Home</string>
+    <string name="addProduct">Add Product</string>
+    <string name="productName">Product Name</string>
+    <string name="productPrice">Price</string>
+    <string name="productQuantity">Quantity: </string>
+    <string name="totalPrice">Total Price: </string>
+    <string name="add">+</string>
+    <string name="subtract">-</string>
+    <string name="initialQuantity">0</string>
+    <string name="initialPrice">-</string>
+    <string name="rupees">\u20B9</string>
+    <string name="instruction">Swipe to view all products</string>
+    <string name="pName">Product Name: </string>
+    <string name="pPrice">Total Price: </string>
+    <string name="pID">Product ID: </string>
+    <string name="pQuantity">Quantity: </string>
 </resources>
