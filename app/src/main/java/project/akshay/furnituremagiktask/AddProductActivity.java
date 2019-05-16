@@ -1,13 +1,17 @@
 package project.akshay.furnituremagiktask;
 
 import android.content.Intent;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import java.util.Objects;
 
 public class AddProductActivity extends AppCompatActivity {
 
@@ -19,6 +23,7 @@ public class AddProductActivity extends AppCompatActivity {
     TextView totalPriceText;
     Button addProduct;
     DatabaseManager databaseManager;
+    RelativeLayout relativeLayout;
 
     int quantityCounter;
     int totalPrice;
@@ -28,8 +33,9 @@ public class AddProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
 
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
 
+        relativeLayout = findViewById(R.id.relLayout);
         prodNameEditText = findViewById(R.id.productNameText);
         prodPriceEditText = findViewById(R.id.productPriceText);
         addQuantity = findViewById(R.id.addQuantity);
@@ -43,7 +49,7 @@ public class AddProductActivity extends AppCompatActivity {
         addQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!TextUtils.isEmpty(prodPriceEditText.getText().toString())) {
+                if(!TextUtils.isEmpty(Objects.requireNonNull(prodPriceEditText.getText()).toString())) {
                     quantityCounter++;
                     prodQuantity.setText(String.valueOf(quantityCounter));
                     totalPrice = quantityCounter * Integer.parseInt(prodPriceEditText.getText().toString());
@@ -55,7 +61,7 @@ public class AddProductActivity extends AppCompatActivity {
         subQuantity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(quantityCounter != 0 && !TextUtils.isEmpty(prodPriceEditText.getText().toString())){
+                if(quantityCounter != 0 && !TextUtils.isEmpty(Objects.requireNonNull(prodPriceEditText.getText()).toString())){
                     quantityCounter--;
                     prodQuantity.setText(String.valueOf(quantityCounter));
                     totalPrice = quantityCounter * Integer.parseInt(prodPriceEditText.getText().toString());
@@ -68,16 +74,21 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String productName = prodNameEditText.getText().toString();
+                String productName = Objects.requireNonNull(prodNameEditText.getText()).toString();
                 String productQuantity = String.valueOf(quantityCounter);
-                String productPrice = prodPriceEditText.getText().toString();
+                String productPrice = Objects.requireNonNull(prodPriceEditText.getText()).toString();
 
-                Product product = new Product(productName,productQuantity,productPrice,String.valueOf(totalPrice),0);
-                databaseManager.addProduct(product);
+                if(productName.equals("") || productPrice.equals("") || totalPrice == 0){
+                    Snackbar.make(relativeLayout,getResources().getString(R.string.error),Snackbar.LENGTH_SHORT).show();
+                } else {
+                    Product product = new Product(productName,productQuantity,productPrice,String.valueOf(totalPrice),0);
+                    databaseManager.addProduct(product);
 
-                finishAffinity();
-                startActivity(new Intent(getApplicationContext(),HomeActivity.class));
-                overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
+                    finishAffinity();
+                    startActivity(new Intent(getApplicationContext(),HomeActivity.class));
+                    overridePendingTransition(R.anim.slide_from_left,R.anim.slide_to_right);
+
+                }
 
             }
         });

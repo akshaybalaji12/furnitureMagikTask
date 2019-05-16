@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.action_bar_layout);
 
         addProductButton = findViewById(R.id.addProductButton);
@@ -53,7 +54,9 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        Snackbar.make(relativeLayout,getResources().getString(R.string.instruction),Snackbar.LENGTH_SHORT).show();
+        if(!productDetails.isEmpty()) {
+            Snackbar.make(relativeLayout,getResources().getString(R.string.instruction),Snackbar.LENGTH_SHORT).show();
+        }
 
     }
 }

@@ -69,7 +69,7 @@ public class DatabaseManager implements BaseColumns {
 
         DataBase dataBase = new DataBase(context);
         ArrayList<Product> productsList = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM " + tableName + " ORDER BY " + k_name + " COLLATE NOCASE ASC";
+        String sqlQuery = "SELECT * FROM " + tableName;
 
         SQLiteDatabase sqLiteDatabase = dataBase.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(sqlQuery,null);

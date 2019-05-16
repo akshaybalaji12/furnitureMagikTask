@@ -16,4 +16,5 @@
     <string name="pPrice">Total Price: </string>
     <string name="pID">Product ID: </string>
     <string name="pQuantity">Quantity: </string>
+    <string name="error">Add name or price or quantity</string>
 </resources>
